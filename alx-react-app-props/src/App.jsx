@@ -3,30 +3,24 @@ import ProfilePage from './components/ProfilePage'
 import UserContext from './UserContext'
 
 function App() {
-  // Define user data
+  // User data to be shared across components
   const userData = { 
     name: "Jane Doe", 
     email: "jane.doe@example.com" 
   };
 
   return (
-    // Wrap ProfilePage with UserContext.Provider
+    // Wrap the component tree with UserContext.Provider
     <UserContext.Provider value={userData}>
-      <div style={{ 
-        padding: '20px',
-        fontFamily: 'Arial, sans-serif'
+      <div style={{
+        fontFamily: 'Arial, sans-serif',
+        minHeight: '100vh',
+        backgroundColor: '#f5f5f5'
       }}>
-        <h1 style={{ 
-          textAlign: 'center',
-          color: '#333',
-          marginBottom: '30px'
-        }}>
-          Context API Demo
-        </h1>
         <ProfilePage />
       </div>
     </UserContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;
