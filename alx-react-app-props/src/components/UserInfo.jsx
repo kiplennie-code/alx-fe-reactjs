@@ -1,13 +1,15 @@
-import UserDetails from './UserDetails';
+import { useContext } from 'react';
+import UserContext from '../UserContext';
 
-function UserInfo() {
-  // No need to receive or pass userData as props
+function UserProfile() {
+  const userData = useContext(UserContext);
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h2 style={{ textAlign: 'center', color: '#2c3e50' }}>User Information</h2>
-      <UserDetails />
+    <div>
+      <p>Name: {userData.name}</p>
+      <p>Email: {userData.email}</p>
     </div>
   );
 }
 
-export default UserInfo;
+export default UserProfile;
