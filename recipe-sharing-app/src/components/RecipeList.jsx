@@ -7,14 +7,25 @@ const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
   const searchTerm = useRecipeStore((state) => state.searchTerm);
   const filterRecipes = useRecipeStore((state) => state.filterRecipes);
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
 
-  // Initialize filtered recipes when component mounts or recipes change
   useEffect(() => {
     filterRecipes();
   }, [recipes, filterRecipes]);
 
-  // Determine which recipes to display
   const recipesToDisplay = searchTerm ? filteredRecipes : recipes;
+
+  const isFavorite = (recipeId) => favorites.includes(recipeId);
+
+  const toggleFavorite = (recipeId) => {
+    if (isFavorite(recipeId)) {
+      removeFavorite(recipeId);
+    } else {
+      addFavorite(recipeId);
+    }
+  };
 
   return (
     <div>
@@ -53,27 +64,46 @@ const RecipeList = () => {
               borderRadius: '5px',
               backgroundColor: '#f9f9f9',
               transition: 'box-shadow 0.3s',
+              position: 'relative'
             }}
             onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'}
             onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
             >
-              <h3>{recipe.title}</h3>
-              <p>{recipe.description.substring(0, 100)}...</p>
-              <Link 
-                to={`/recipe/${recipe.id}`}
-                style={{
-                  display: 'inline-block',
-                  marginTop: '10px',
-                  padding: '8px 16px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '4px',
-                  fontSize: '14px'
-                }}
-              >
-                View Details
-              </Link>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                <div style={{ flex: 1 }}>
+                  <h3>{recipe.title}</h3>
+                  <p>{recipe.description.substring(0, 100)}...</p>
+                  <Link 
+                    to={`/recipe/${recipe.id}`}
+                    style={{
+                      display: 'inline-block',
+                      marginTop: '10px',
+                      padding: '8px 16px',
+                      backgroundColor: '#007bff',
+                      color: 'white',
+                      textDecoration: 'none',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    View Details
+                  </Link>
+                </div>
+                <button
+                  onClick={() => toggleFavorite(recipe.id)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    padding: '5px',
+                    marginLeft: '10px'
+                  }}
+                  title={isFavorite(recipe.id) ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  {isFavorite(recipe.id) ? '❤️' : '🤍'}
+                </button>
+              </div>
             </div>
           ))}
         </div>

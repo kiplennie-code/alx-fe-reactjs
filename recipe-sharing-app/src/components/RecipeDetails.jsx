@@ -8,6 +8,9 @@ const RecipeDetails = () => {
   const recipe = useRecipeStore((state) =>
     state.recipes.find((recipe) => recipe.id === parseInt(recipeId))
   );
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
 
   if (!recipe) {
     return (
@@ -19,6 +22,16 @@ const RecipeDetails = () => {
       </div>
     );
   }
+
+  const isFavorite = favorites.includes(recipe.id);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(recipe.id);
+    } else {
+      addFavorite(recipe.id);
+    }
+  };
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
@@ -32,8 +45,29 @@ const RecipeDetails = () => {
         borderRadius: '8px',
         marginTop: '20px'
       }}>
-        <h1>{recipe.title}</h1>
-        <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#555' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+          <h1 style={{ margin: '0' }}>{recipe.title}</h1>
+          <button
+            onClick={toggleFavorite}
+            style={{
+              background: 'none',
+              border: '2px solid #ddd',
+              borderRadius: '50%',
+              width: '50px',
+              height: '50px',
+              fontSize: '24px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {isFavorite ? '❤️' : '🤍'}
+          </button>
+        </div>
+        
+        <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#555', marginTop: '20px' }}>
           {recipe.description}
         </p>
         
