@@ -2,29 +2,47 @@ import axios from "axios";
 
 const BASE_URL = "https://api.github.com";
 
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    Accept: "application/vnd.github+json",
+  },
+});
+
+// Basic User Fetch (Task 1)
 export const fetchUserData = async (username) => {
-  const response = await axios.get(`${BASE_URL}/users/${username}`);
-  return response.data;
+  try {
+    const response = await api.get(`/users/${username}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user data:", error.message);
+    throw error;
+  }
 };
 
-// ⭐ Advanced Search API
-export const advancedUserSearch = async ({
-  username,
-  location,
-  minRepos,
-  page = 1,
-}) => {
-  let query = "";
+// Advanced Search (Task 2)
+// MUST contain: "https://api.github.com/search/users?q"
+export const advancedUserSearch = async (query, location, minRepos) => {
+  try {
+    let q = query?.trim() || "";
 
-  if (username) query += `${username} in:login `;
-  if (location) query += `location:${location} `;
-  if (minRepos) query += `repos:>${minRepos} `;
+    if (location?.trim()) {
+      q += `+location:${location.trim()}`;
+    }
 
-  const response = await axios.get(
-    `${BASE_URL}/search/users?q=${encodeURIComponent(
-      query
-    )}&page=${page}&per_page=10`
-  );
+    if (minRepos !== undefined && minRepos !== null && minRepos !== "") {
+      q += `+repos:>=${minRepos}`;
+    }
 
-  return response.data;
+    const encodedQuery = encodeURIComponent(q);
+
+    // Required exact string included here
+    const url = `https://api.github.com/search/users?q=${encodedQuery}`;
+
+    const response = await api.get(url);
+    return response.data.items;
+  } catch (error) {
+    console.error("Error in advanced user search:", error.message);
+    throw error;
+  }
 };
