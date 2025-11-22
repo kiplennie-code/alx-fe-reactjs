@@ -1,48 +1,63 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "https://api.github.com";
+const BASE_URL = import.meta.env.VITE_GITHUB_API_BASE_URL || 'https://api.github.com';
+const API_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
 
-const api = axios.create({
+// Create axios instance with default config
+const githubAPI = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Accept: "application/vnd.github+json",
-  },
+  headers: API_TOKEN ? {
+    'Authorization': `token ${API_TOKEN}`
+  } : {}
 });
 
-// Basic User Fetch (Task 1)
+/**
+ * Fetch user data from GitHub API
+ * @param {string} username - GitHub username to search
+ * @returns {Promise} User data
+ */
 export const fetchUserData = async (username) => {
   try {
-    const response = await api.get(`/users/${username}`);
+    const response = await githubAPI.get(`/users/${username}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user data:", error.message);
-    throw error;
+    throw new Error(error.response?.data?.message || 'User not found');
   }
 };
 
-// Advanced Search (Task 2)
-// MUST contain: "https://api.github.com/search/users?q"
-export const advancedUserSearch = async (query, location, minRepos) => {
+/**
+ * Advanced search for GitHub users with filters
+ * @param {Object} params - Search parameters
+ * @param {string} params.username - GitHub username to search
+ * @param {string} params.location - User location
+ * @param {number} params.minRepos - Minimum number of repositories
+ * @returns {Promise} Search results
+ */
+export const searchUsers = async ({ username, location, minRepos }) => {
   try {
-    let q = query?.trim() || "";
-
-    if (location?.trim()) {
-      q += `+location:${location.trim()}`;
+    let query = '';
+    
+    if (username) {
+      query += username;
+    }
+    
+    if (location) {
+      query += `+location:${location}`;
+    }
+    
+    if (minRepos) {
+      query += `+repos:>=${minRepos}`;
     }
 
-    if (minRepos !== undefined && minRepos !== null && minRepos !== "") {
-      q += `+repos:>=${minRepos}`;
+    if (!query) {
+      return { items: [] };
     }
 
-    const encodedQuery = encodeURIComponent(q);
-
-    // Required exact string included here
-    const url = `https://api.github.com/search/users?q=${encodedQuery}`;
-
-    const response = await api.get(url);
-    return response.data.items;
+    const response = await githubAPI.get(`/search/users?q=${query}`);
+    return response.data;
   } catch (error) {
-    console.error("Error in advanced user search:", error.message);
-    throw error;
+    throw new Error(error.response?.data?.message || 'Search failed');
   }
 };
+
+export default githubAPI;

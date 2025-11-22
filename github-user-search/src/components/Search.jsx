@@ -1,208 +1,115 @@
-import { useState } from "react";
-import { fetchUserData, advancedUserSearch } from "../services/githubService";
+import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
-const Search = () => {
-  const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [minRepos, setMinRepos] = useState("");
-
-  const [singleUser, setSingleUser] = useState(null);
-  const [advancedResults, setAdvancedResults] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-
+function Search() {
+  const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
 
-  // 🔹 BASIC SEARCH
-  const handleBasicSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!username.trim()) return;
 
     setLoading(true);
     setError(false);
-    setSingleUser(null);
-    setAdvancedResults([]);
+    setUserData(null);
 
     try {
-      const data = await fetchUserData(username);
-      setSingleUser(data);
+      const data = await fetchUserData(username.trim());
+      setUserData(data);
     } catch (err) {
       setError(true);
     } finally {
       setLoading(false);
     }
-  };
-
-  // 🔹 ADVANCED SEARCH
-  const handleAdvancedSearch = async (e) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setError(false);
-    setSingleUser(null);
-
-    try {
-      const data = await advancedUserSearch({
-        username,
-        location,
-        minRepos,
-        page,
-      });
-
-      setAdvancedResults(data.items);
-      setTotalCount(data.total_count);
-    } catch (err) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 🔹 Load next page
-  const loadMore = async () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-
-    const data = await advancedUserSearch({
-      username,
-      location,
-      minRepos,
-      page: nextPage,
-    });
-
-    setAdvancedResults((prev) => [...prev, ...data.items]);
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-8">
-      
-      {/* TITLE */}
-      <h1 className="text-3xl font-bold text-center">GitHub User Search</h1>
-
-      {/* 🔹 SEARCH FORM */}
-      <form className="grid grid-cols-1 md:grid-cols-3 gap-4" onSubmit={handleAdvancedSearch}>
-        <input
-          type="text"
-          placeholder="Username..."
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border px-3 py-2 rounded-lg w-full"
-        />
-
-        <input
-          type="text"
-          placeholder="Location (e.g. Kenya)"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="border px-3 py-2 rounded-lg w-full"
-        />
-
-        <input
-          type="number"
-          placeholder="Min repositories"
-          value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)}
-          className="border px-3 py-2 rounded-lg w-full"
-        />
-
-        <button
-          type="submit"
-          className="md:col-span-3 bg-blue-600 text-white py-2 rounded-lg"
-        >
-          Advanced Search
-        </button>
+    <div className="max-w-2xl mx-auto p-6">
+      {/* Search Form */}
+      <form onSubmit={handleSubmit} className="mb-8">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter GitHub username..."
+            className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            aria-label="GitHub username"
+          />
+          <button
+            type="submit"
+            disabled={loading || !username.trim()}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition duration-200"
+          >
+            {loading ? 'Searching...' : 'Search'}
+          </button>
+        </div>
       </form>
 
-      {/*  BASIC SEARCH BUTTON */}
-      <button
-        onClick={handleBasicSearch}
-        className="w-full bg-gray-700 text-white py-2 rounded-lg"
-      >
-        Basic Search Only (Username)
-      </button>
-
-      {/*  LOADING */}
+      {/* Loading State */}
       {loading && (
-        <p className="text-center text-gray-500 text-lg">Loading...</p>
-      )}
-
-      {/*  ERROR MESSAGE (EXACT REQUIRED TEXT) */}
-      {error && !loading && (
-        <p className="text-center text-red-500 text-lg">
-          Looks like we cant find the user
-        </p>
-      )}
-
-      {/*  BASIC SEARCH RESULT */}
-      {singleUser && (
-        <div className="border p-6 rounded-lg shadow text-center">
-          <img
-            src={singleUser.avatar_url}
-            alt={singleUser.login}
-            className="w-24 h-24 rounded-full mx-auto mb-4"
-          />
-          <h2 className="text-xl font-semibold">{singleUser.name || singleUser.login}</h2>
-          <p className="text-gray-600">{singleUser.location}</p>
-          <p className="text-gray-600">Repos: {singleUser.public_repos}</p>
-
-          <a
-            href={singleUser.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline mt-3 block"
-          >
-            View Profile
-          </a>
+        <div className="text-center text-gray-400 text-lg" role="status">
+          Loading...
         </div>
       )}
 
-      {/*  ADVANCED SEARCH RESULTS LIST */}
-      {advancedResults.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">
-            Results: {totalCount} users found
-          </h2>
+      {/* Error State */}
+      {error && (
+        <div className="text-center text-red-400 text-lg" role="alert">
+          Looks like we can't find the user
+        </div>
+      )}
 
-          {advancedResults.map((user) => (
-            <div
-              key={user.id}
-              className="flex items-center gap-4 border p-4 rounded-lg shadow"
-            >
-              <img
-                src={user.avatar_url}
-                alt={user.login}
-                className="w-16 h-16 rounded-full"
-              />
+      {/* User Data Display */}
+      {userData && !loading && !error && (
+        <div className="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
+          <div className="flex items-start gap-4">
+            {/* Avatar */}
+            <img
+              src={userData.avatar_url}
+              alt={`${userData.login}'s avatar`}
+              className="w-24 h-24 rounded-full border-2 border-blue-500"
+              loading="lazy"
+            />
 
-              <div>
-                <h3 className="text-lg font-semibold">{user.login}</h3>
+            {/* User Info */}
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                {userData.name || userData.login}
+              </h2>
+              <p className="text-blue-400 mb-3">@{userData.login}</p>
 
-                <a
-                  href={user.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  View Profile
-                </a>
+              {userData.bio && (
+                <p className="text-gray-300 mb-4">{userData.bio}</p>
+              )}
+
+              {/* Stats */}
+              <div className="flex gap-4 mb-4 text-sm text-gray-400">
+                {userData.location && (
+                  <span>📍 {userData.location}</span>
+                )}
+                <span>📚 {userData.public_repos} repos</span>
+                <span>👥 {userData.followers} followers</span>
               </div>
-            </div>
-          ))}
 
-          {/* PAGINATION */}
-          {advancedResults.length < totalCount && (
-            <button
-              onClick={loadMore}
-              className="w-full bg-green-600 text-white py-2 rounded-lg"
-            >
-              Load More
-            </button>
-          )}
+              {/* View Profile Link ✅ */}
+              <a
+                href={userData.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default Search;
