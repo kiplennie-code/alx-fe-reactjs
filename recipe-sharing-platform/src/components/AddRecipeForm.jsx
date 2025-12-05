@@ -10,15 +10,15 @@ function AddRecipeForm() {
     summary: '',
     image: '',
     ingredients: '',
-    instructions: ''
+    steps: ''
   });
 
-  // Handle input changes
+  // Handle input changes using target.value
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: e.target.value  // Using target.value explicitly
     }));
     
     // Clear error for this field when user starts typing
@@ -60,9 +60,9 @@ function AddRecipeForm() {
       }
     }
 
-    // Instructions validation
-    if (!formData.instructions.trim()) {
-      newErrors.instructions = 'Cooking instructions are required';
+    // Steps validation (preparation steps)
+    if (!formData.steps.trim()) {
+      newErrors.steps = 'Preparation steps are required';
     }
 
     return newErrors;
@@ -87,27 +87,22 @@ function AddRecipeForm() {
       .filter(item => item.trim() !== '')
       .map(item => item.trim());
 
-    const instructionsList = formData.instructions
+    const stepsList = formData.steps
       .split('\n')
       .filter(item => item.trim() !== '')
       .map(item => item.trim());
 
     const newRecipe = {
-      id: Date.now(), // Simple ID generation
+      id: Date.now(),
       title: formData.title.trim(),
       summary: formData.summary.trim(),
       image: formData.image.trim() || 'https://via.placeholder.com/150',
       ingredients: ingredientsList,
-      instructions: instructionsList
+      instructions: stepsList
     };
 
-    // Log the new recipe (in a real app, you'd send this to a backend)
     console.log('New Recipe Submitted:', newRecipe);
-    
-    // Show success message
     alert('Recipe added successfully!');
-    
-    // Redirect to home page
     navigate('/');
   };
 
@@ -229,30 +224,30 @@ function AddRecipeForm() {
                 )}
               </div>
 
-              {/* Cooking Instructions */}
+              {/* Preparation Steps */}
               <div>
                 <label 
-                  htmlFor="instructions" 
+                  htmlFor="steps" 
                   className="block text-gray-700 font-semibold mb-2"
                 >
-                  Cooking Instructions <span className="text-red-500">*</span>
+                  Preparation Steps <span className="text-red-500">*</span>
                   <span className="text-gray-500 text-sm font-normal ml-2">
                     (One step per line)
                   </span>
                 </label>
                 <textarea
-                  id="instructions"
-                  name="instructions"
-                  value={formData.instructions}
+                  id="steps"
+                  name="steps"
+                  value={formData.steps}
                   onChange={handleChange}
                   rows="10"
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                    errors.instructions ? 'border-red-500' : 'border-gray-300'
+                    errors.steps ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Preheat oven to 350F&#10;Mix dry ingredients in a bowl&#10;Add wet ingredients&#10;Bake for 25-30 minutes"
                 />
-                {errors.instructions && (
-                  <p className="text-red-500 text-sm mt-1">{errors.instructions}</p>
+                {errors.steps && (
+                  <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
                 )}
               </div>
 
