@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import RecipeCard from './RecipeCard';
-import { recipesData } from '../data/mockData';
 
 function HomePage() {
-  const [recipes] = useState(recipesData);
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    // Load recipe data from data.json
+    fetch('/src/data.json')
+      .then(response => response.json())
+      .then(data => setRecipes(data))
+      .catch(error => console.error('Error loading recipes:', error));
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -29,13 +35,50 @@ function HomePage() {
           Discover Our Recipes
         </h2>
         
-        {/* Recipe Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recipe Grid - Responsive Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {recipes.map(recipe => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <div 
+              key={recipe.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-transform duration-300"
+            >
+              <img 
+                src={recipe.image} 
+                alt={recipe.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {recipe.title}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {recipe.summary}
+                </p>
+                <Link 
+                  to={`/recipe/${recipe.id}`}
+                  className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                >
+                  View Recipe
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
+
+        {/* Loading State */}
+        {recipes.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">Loading recipes...</p>
+          </div>
+        )}
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white mt-12">
+        <div className="container mx-auto px-4 py-6 text-center">
+          <p>&copy; 2024 Recipe Sharing Platform. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
