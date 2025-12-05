@@ -3,36 +3,160 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "400g spaghetti",
+      "200g pancetta or bacon",
+      "4 large eggs",
+      "100g Parmesan cheese, grated",
+      "Black pepper to taste",
+      "Salt for pasta water"
+    ],
+    "instructions": [
+      "Bring a large pot of salted water to boil and cook spaghetti according to package directions.",
+      "While pasta cooks, fry pancetta in a large skillet until crispy.",
+      "In a bowl, whisk together eggs and grated Parmesan cheese.",
+      "Drain pasta, reserving 1 cup of pasta water.",
+      "Remove skillet from heat and add hot pasta to the pancetta.",
+      "Quickly stir in egg mixture, adding pasta water as needed to create a creamy sauce.",
+      "Season with black pepper and serve immediately."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "500g chicken breast, cubed",
+      "1 cup plain yogurt",
+      "2 tablespoons tikka masala paste",
+      "400g can crushed tomatoes",
+      "1 cup heavy cream",
+      "2 onions, diced",
+      "4 cloves garlic, minced",
+      "2 tablespoons vegetable oil",
+      "Fresh cilantro for garnish",
+      "Salt to taste"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and half the tikka masala paste for at least 2 hours.",
+      "Heat oil in a large pan and cook marinated chicken until golden. Set aside.",
+      "In the same pan, saute onions until soft, then add garlic.",
+      "Add remaining tikka masala paste and cook for 1 minute.",
+      "Pour in crushed tomatoes and simmer for 10 minutes.",
+      "Stir in heavy cream and return chicken to the pan.",
+      "Simmer for another 10 minutes until chicken is cooked through.",
+      "Garnish with fresh cilantro and serve with rice or naan."
+    ]
   },
   {
     "id": 3,
     "title": "Caesar Salad",
     "summary": "A green salad of romaine lettuce and croutons dressed with lemon juice, olive oil, egg, Worcestershire sauce, anchovies, garlic, Dijon mustard, Parmesan cheese, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "1 large head romaine lettuce, chopped",
+      "1 cup croutons",
+      "1/2 cup Parmesan cheese, shaved",
+      "2 cloves garlic",
+      "2 anchovy fillets",
+      "1 egg yolk",
+      "2 tablespoons lemon juice",
+      "1 teaspoon Dijon mustard",
+      "1/2 cup olive oil",
+      "Salt and pepper to taste"
+    ],
+    "instructions": [
+      "Wash and thoroughly dry romaine lettuce, then chop into bite-sized pieces.",
+      "For the dressing: In a blender, combine garlic, anchovies, egg yolk, lemon juice, and Dijon mustard.",
+      "Blend while slowly drizzling in olive oil until emulsified.",
+      "Season dressing with salt and pepper to taste.",
+      "In a large bowl, toss lettuce with dressing until evenly coated.",
+      "Top with croutons and shaved Parmesan cheese.",
+      "Serve immediately for best texture."
+    ]
   },
   {
     "id": 4,
     "title": "Beef Tacos",
     "summary": "Mexican dish consisting of a small hand-sized corn or wheat tortilla topped with a filling of seasoned beef and various toppings.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "500g ground beef",
+      "1 packet taco seasoning",
+      "8 taco shells or soft tortillas",
+      "1 cup shredded lettuce",
+      "1 cup diced tomatoes",
+      "1 cup shredded cheddar cheese",
+      "1/2 cup sour cream",
+      "1/2 cup salsa",
+      "1/4 cup diced onions"
+    ],
+    "instructions": [
+      "In a large skillet, brown ground beef over medium-high heat, breaking it up as it cooks.",
+      "Drain excess fat from the beef.",
+      "Add taco seasoning and water according to package directions.",
+      "Simmer for 5 minutes until sauce thickens.",
+      "Warm taco shells in oven at 350F for 5 minutes.",
+      "Fill each shell with seasoned beef.",
+      "Top with lettuce, tomatoes, cheese, and onions.",
+      "Serve with sour cream and salsa on the side."
+    ]
   },
   {
     "id": 5,
     "title": "Margherita Pizza",
     "summary": "A typical Neapolitan pizza, made with San Marzano tomatoes, mozzarella cheese, fresh basil, salt and extra-virgin olive oil.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "1 pizza dough (store-bought or homemade)",
+      "1 cup tomato sauce",
+      "300g fresh mozzarella, sliced",
+      "Fresh basil leaves",
+      "2 tablespoons olive oil",
+      "1 clove garlic, minced",
+      "Salt to taste",
+      "Flour for dusting"
+    ],
+    "instructions": [
+      "Preheat oven to 475F (245C) with a pizza stone if available.",
+      "On a floured surface, roll out pizza dough to desired thickness.",
+      "Mix tomato sauce with minced garlic and a pinch of salt.",
+      "Spread sauce evenly over the dough, leaving a 1-inch border.",
+      "Arrange mozzarella slices evenly over the sauce.",
+      "Drizzle with olive oil.",
+      "Bake for 12-15 minutes until crust is golden and cheese is bubbly.",
+      "Remove from oven and immediately top with fresh basil leaves.",
+      "Slice and serve hot."
+    ]
   },
   {
     "id": 6,
     "title": "Chocolate Chip Cookies",
     "summary": "Classic American cookies with chocolate chips, butter, sugar, and vanilla.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "2 1/4 cups all-purpose flour",
+      "1 cup butter, softened",
+      "3/4 cup granulated sugar",
+      "3/4 cup packed brown sugar",
+      "2 large eggs",
+      "2 teaspoons vanilla extract",
+      "1 teaspoon baking soda",
+      "1/2 teaspoon salt",
+      "2 cups chocolate chips"
+    ],
+    "instructions": [
+      "Preheat oven to 375F (190C).",
+      "In a large bowl, cream together softened butter and both sugars until fluffy.",
+      "Beat in eggs one at a time, then stir in vanilla extract.",
+      "In a separate bowl, whisk together flour, baking soda, and salt.",
+      "Gradually blend dry ingredients into the butter mixture.",
+      "Fold in chocolate chips.",
+      "Drop rounded tablespoons of dough onto ungreased baking sheets.",
+      "Bake for 9-11 minutes or until golden brown.",
+      "Cool on baking sheet for 2 minutes before transferring to a wire rack."
+    ]
   }
-] 
+]
