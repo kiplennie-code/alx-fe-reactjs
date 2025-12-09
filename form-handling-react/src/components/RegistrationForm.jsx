@@ -23,27 +23,27 @@ const RegistrationForm = () => {
   };
 
   // Validate form
-  const validate = () => {
-    const newErrors = {};
+ const validate = () => {
+  const newErrors = {};
 
-    if (!username.trim()) {
-      newErrors.username = 'Username is required';
-    }
+  if (!username) {
+    newErrors.username = 'Username is required';
+  }
 
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email is invalid';
-    }
+  if (!email) {
+    newErrors.email = 'Email is required';
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+    newErrors.email = 'Email is invalid';
+  }
 
-    if (!password) {
-      newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
+  if (!password) {
+    newErrors.password = 'Password is required';
+  } else if (password.length < 6) {
+    newErrors.password = 'Password must be at least 6 characters';
+  }
 
-    return newErrors;
-  };
+  return newErrors;
+};
 
   // Handle form submission
   const handleSubmit = (e) => {
