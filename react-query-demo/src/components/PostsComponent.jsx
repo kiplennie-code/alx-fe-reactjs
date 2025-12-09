@@ -15,10 +15,14 @@ const fetchPosts = async () => {
 const PostsComponent = () => {
   const [showPosts, setShowPosts] = useState(true);
 
-  // Use React Query to fetch data
+  // Use React Query to fetch data with caching options
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    cacheTime: 300000, // Cache persists for 5 minutes (300000ms)
+    staleTime: 60000, // Data is fresh for 1 minute (60000ms)
+    refetchOnWindowFocus: true, // Refetch when window regains focus
+    keepPreviousData: true, // Keep previous data while fetching new data
   });
 
   // Loading state
@@ -121,7 +125,10 @@ const PostsComponent = () => {
           Total Posts: {data?.length || 0}
         </p>
         <p style={{ margin: '5px 0', color: '#666', fontSize: '12px' }}>
-          💡 Toggle posts to see caching in action. Data loads instantly from cache!
+          💡 React Query Config: cacheTime=5min, staleTime=1min, refetchOnWindowFocus=true
+        </p>
+        <p style={{ margin: '5px 0', color: '#666', fontSize: '12px' }}>
+          Toggle posts to see caching in action. Data loads instantly from cache!
         </p>
       </div>
 
@@ -199,6 +206,11 @@ const PostsComponent = () => {
           <p style={{ color: '#666' }}>
             Click "Show Posts" to see them load instantly from React Query's cache
             without making a new API request.
+          </p>
+          <p style={{ color: '#666', fontSize: '14px', marginTop: '10px' }}>
+            <strong>Caching Demo:</strong> Data remains cached for 5 minutes (cacheTime) 
+            and is considered fresh for 1 minute (staleTime). The keepPreviousData option 
+            ensures smooth transitions when refetching.
           </p>
         </div>
       )}
