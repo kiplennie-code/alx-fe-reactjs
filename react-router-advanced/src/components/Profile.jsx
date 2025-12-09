@@ -1,5 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import ProfileDetails from './ProfileDetails';
+import ProfileSettings from './ProfileSettings';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -18,7 +20,7 @@ const Profile = () => {
         textAlign: 'center'
       }}>
         <p style={{ margin: 0, color: '#2e7d32', fontWeight: 'bold' }}>
-           You are authenticated! This is a protected route.
+          ✅ You are authenticated! This is a protected route.
         </p>
       </div>
 
@@ -56,7 +58,7 @@ const Profile = () => {
             fontWeight: 'bold'
           }}
         >
-          Details
+          ProfileDetails
         </Link>
         
         <Link
@@ -70,7 +72,7 @@ const Profile = () => {
             fontWeight: 'bold'
           }}
         >
-          Settings
+          ProfileSettings
         </Link>
       </div>
 
