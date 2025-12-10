@@ -28,7 +28,7 @@ function TodoList() {
   };
 
   return (
-    <div>
+    <div data-testid="todo-list">
       <h1>My Todo List</h1>
       
       <AddTodoForm onAddTodo={addTodo} />
@@ -37,14 +37,21 @@ function TodoList() {
         {todos.map(todo => (
           <li 
             key={todo.id}
+            data-testid={`todo-${todo.id}`}
             style={{
               textDecoration: todo.completed ? 'line-through' : 'none'
             }}
           >
-            <span onClick={() => toggleTodo(todo.id)}>
+            <span 
+              onClick={() => toggleTodo(todo.id)}
+              data-testid="todo-text"
+            >
               {todo.text}
             </span>
-            <button onClick={() => deleteTodo(todo.id)}>
+            <button 
+              onClick={() => deleteTodo(todo.id)}
+              data-testid="delete-button"
+            >
               Delete
             </button>
           </li>
